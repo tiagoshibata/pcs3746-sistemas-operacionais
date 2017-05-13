@@ -1,14 +1,15 @@
-FROM ubuntu
+FROM ubuntu:16.04
 MAINTAINER Tiago Koji Castro Shibata
+
+# Packages
+RUN apt-get update && apt-get install --no-install-recommends -y bc binutils-arm-linux-gnueabi \
+    build-essential gcc-arm-linux-gnueabi libelf-dev locales qemu-system-arm sudo \
+    && rm -rf /var/lib/apt/lists/*
 
 # Environment
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
-
-# Packages
-RUN apt-get update && apt-get install --no-install-recommends -y binutils-arm-linux-gnueabi \
-    build-essential gcc-arm-linux-gnueabi qemu-arm sudo \
-    && rm -rf /var/lib/apt/lists/*
+ENV MAKEFLAGS -j4
 
 # Non-root "student" user
 RUN useradd -mG sudo student && mkdir -p /etc/sudoers.d && \

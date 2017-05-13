@@ -3,8 +3,9 @@ MAINTAINER Tiago Koji Castro Shibata
 
 # Packages
 RUN apt-get update && apt-get install --no-install-recommends -y bc binutils-arm-linux-gnueabi \
-    build-essential gcc-arm-linux-gnueabi libelf-dev locales qemu-system-arm sudo \
-    && rm -rf /var/lib/apt/lists/*
+    build-essential gcc-arm-linux-gnueabi libc6-dev-armel-cross libelf-dev \
+    locales qemu-system-arm sudo && \
+    rm -rf /var/lib/apt/lists/*
 
 # Environment
 RUN locale-gen en_US.UTF-8

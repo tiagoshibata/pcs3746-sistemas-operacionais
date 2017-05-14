@@ -1,0 +1,59 @@
+diff --git a/Makefile b/Makefile
+index b400c0604fac..2195f82b35ca 100644
+--- a/Makefile
++++ b/Makefile
+@@ -938,7 +938,7 @@ endif
+ 
+ 
+ ifeq ($(KBUILD_EXTMOD),)
+-core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
++core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ sys_stack/
+ 
+ vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
+ 		     $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
+diff --git a/arch/arm/tools/syscall.tbl b/arch/arm/tools/syscall.tbl
+index 0bb0e9c6376c..40fb553ab5e8 100644
+--- a/arch/arm/tools/syscall.tbl
++++ b/arch/arm/tools/syscall.tbl
+@@ -412,3 +412,5 @@
+ 395	common	pkey_alloc		sys_pkey_alloc
+ 396	common	pkey_free		sys_pkey_free
+ 397	common	statx			sys_statx
++398	common	insert			sys_insert
++399	common	remove			sys_remove
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 980c3c9b06f8..57893f85ccbd 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -905,5 +905,6 @@ asmlinkage long sys_pkey_alloc(unsigned long flags, unsigned long init_val);
+ asmlinkage long sys_pkey_free(int pkey);
+ asmlinkage long sys_statx(int dfd, const char __user *path, unsigned flags,
+ 			  unsigned mask, struct statx __user *buffer);
+-
++asmlinkage long sys_insert(int value);
++asmlinkage long sys_remove(void);
+ #endif
+diff --git a/sys_stack/Makefile b/sys_stack/Makefile
+new file mode 100644
+index 000000000000..9de5a7b867e3
+--- /dev/null
++++ b/sys_stack/Makefile
+@@ -0,0 +1 @@
++obj-y := sys_stack.o
+diff --git a/sys_stack/sys_stack.c b/sys_stack/sys_stack.c
+new file mode 100644
+index 000000000000..364e81d2a4dc
+--- /dev/null
++++ b/sys_stack/sys_stack.c
+@@ -0,0 +1,11 @@
++#include<linux/linkage.h>
++
++asmlinkage long sys_insert(int value)
++{
++    return value + 10;
++}
++
++asmlinkage long sys_remove(void)
++{
++    return 0;
++}

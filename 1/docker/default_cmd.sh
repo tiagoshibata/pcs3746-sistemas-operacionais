@@ -14,7 +14,9 @@ fi
 if [ ! -f .config ] ; then
     echo ".config not found, using versatile template"
     make ARCH=arm versatile_defconfig
-    make ARCH=arm silentoldconfig
+    # Enable debug symbols
+    sed -i -e 's/.*CONFIG_DEBUG_INFO.*/CONFIG_DEBUG_INFO=y/' .config
+    make ARCH=arm olddefconfig
 fi
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- all
 

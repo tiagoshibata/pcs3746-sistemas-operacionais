@@ -8,10 +8,10 @@ long insert(int value)
 	return syscall(__NR_insert, value);
 }
 
-long remove()
-{
-	return syscall(__NR_remove, value);
-}
+// long remove()
+// {
+// 	return syscall(__NR_remove);
+// }
 
 // _syscall1(long, insert, int, value)  // FIXME Macros are cleaner
 // _syscall0(long, remove)

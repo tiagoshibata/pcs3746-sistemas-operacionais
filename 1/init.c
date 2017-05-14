@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include "stack.h"
 
-int main(int argc, char **argv) {
+int main() {
 	printf("Hello\n");
-	printf("%d\n", insert(15));
+	printf("%ld\n", stack_push(15));
 	for (;;) ;
 }

@@ -1,17 +1,16 @@
-#include<linux/unistd.h>
+#define _GNU_SOURCE
+#include <unistd.h>
+#include <sys/syscall.h>
 
-#define __NR_insert 398
-#define __NR_remove 399
+#define __NR_stack_push 398
+#define __NR_stack_pop 399
 
-long insert(int value)
+long stack_push(int value)
 {
-	return syscall(__NR_insert, value);
+	return syscall(__NR_stack_push, value);
 }
 
-// long remove()
-// {
-// 	return syscall(__NR_remove);
-// }
-
-// _syscall1(long, insert, int, value)  // FIXME Macros are cleaner
-// _syscall0(long, remove)
+long stack_pop()
+{
+	return syscall(__NR_stack_pop);
+}

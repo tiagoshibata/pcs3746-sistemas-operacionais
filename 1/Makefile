@@ -11,7 +11,7 @@ clean:
 
 build/rootfs.gz: build/initramfs_root/init
 		cd build/initramfs_root ; \
-		find -type f -printf '%P\n' | cpio -o -H newc > ../rootfs.gz
+		find -type f -print0 | cpio -0 -ov -H newc | gzip -9 > ../rootfs.gz
 
 build/initramfs_root/init: init.o
 		$(CC) -o $@ $^

@@ -23,7 +23,9 @@ Instale o Docker Community Edition:
 - [Outros](https://www.docker.com/community-edition) 
 
 1. Crie uma pasta para clonar os repositórios e rode:
+
 `git clone https://github.com/felipegoncalvesmarques/linux`
+
 `git clone https://github.com/felipegoncalvesmarques/pcs3746-sistemas-operacionais.git`
 
 2. Entre na pasta `pcs3746-sistemas-operacionais`

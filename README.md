@@ -32,7 +32,7 @@ Instale o Docker Community Edition:
 
 3. Crie o container rodando 
 
-   `docker build -t so .`
+   `docker build -t so ./docker`
 
 4. Rode o container indicando as pastas do linux e do initramfs
 

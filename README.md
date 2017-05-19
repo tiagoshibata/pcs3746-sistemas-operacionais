@@ -1,15 +1,33 @@
-# Usage:
+# Uso:
 
-## Getting the image
+## Estrutura:
 
-Puling: `docker pull tiagoshibata/pcs3746`
+Para não termos de aprender a mexer com Git Submodules, optei por quebrar o linux e a VM para rodá-lo em dois repositórios.
 
-Building: `cd docker ; docker build -t tiagoshibata/pcs3746 .`
+Isso significa que iremos alterar o processo de init nesse repositório e alteraremos o linux [nesse outro](https://github.com/felipegoncalvesmarques/linux).
 
-## Running
+Para isso, é preciso ter a seguinte estrutura de pasta:
+\folder-qualquer-que-voce-escolher
+    \pcs376-sistemas-operacionais <- esse repositório
+    \linux <- [repositório do linux](https://github.com/felipegoncalvesmarques/linux)
 
-`docker run -v "$PWD/linux":/home/student/src/linux -v "$PWD":/home/student/src/initramfs tiagoshibata/pcs3746` will run the container, use `versatile_defconfig` if no .config is available, compile the kernel, generate the initramfs and boot qemu emulating the versatile ARM. The `<path to initramfs sources>` must contain a `Makefile` that outputs an initramfs image to `build/rootfs.gz`.
+## Setando ambiente e rodando
 
-Adding a parameter after the container name runs the specified command in the container. Adding an empty string runs the default shell. `docker run -ti -v "$PWD/linux":/home/student/src/linux -v "$PWD":/home/student/src/initramfs ''`, for example, runs the shell in an interactive session.
+Instale o Docker Community Edition:
+[Mac OS X](https://store.docker.com/editions/community/docker-ce-desktop-mac)
+[Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows)
+[Ubuntu](https://store.docker.com/editions/community/docker-ce-server-ubuntu)
+[Outros](https://www.docker.com/community-edition) 
 
-Tested with tag kernel tag `v4.12-rc1` (`2ea659a9ef488125eb46da6eb571de5eae5c43f6`).
+1. Crie uma pasta para clonar os repositórios e rode:
+`git clone https://github.com/felipegoncalvesmarques/linux`
+`git clone https://github.com/felipegoncalvesmarques/pcs3746-sistemas-operacionais.git`
+
+2. Entre na pasta `pcs3746-sistemas-operacionais`
+
+3. Crie o container rodando `docker build -t so .`
+4. Rode o container indicando as pastas do linux e do initramfs
+`docker run -v "$PWD/../linux":/home/student/src/linux -v "$PWD":/home/student/src/initramfs so`
+
+A saída deve ser:
+(To be developed) ...

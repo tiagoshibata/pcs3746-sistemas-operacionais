@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "hello_world.h"
 
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 
@@ -18,6 +19,9 @@ void panic(const char *msg)
 
 int main()
 {
+	printf("Testing Hello World syscall:\n");
+	hello_world();
+
 	printf("Custom initramfs - forking to run %d programs\n", len(programs));
 
 	for (int i = 0; i < len(programs); i++) {

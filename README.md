@@ -24,15 +24,19 @@ Instale o Docker Community Edition:
 
 1. Crie uma pasta para clonar os repositórios e rode:
 
-`git clone https://github.com/felipegoncalvesmarques/linux`
+   `git clone https://github.com/felipegoncalvesmarques/linux`
 
-`git clone https://github.com/felipegoncalvesmarques/pcs3746-sistemas-operacionais.git`
+   `git clone https://github.com/felipegoncalvesmarques/pcs3746-sistemas-operacionais.git`
 
 2. Entre na pasta `pcs3746-sistemas-operacionais`
 
-3. Crie o container rodando `docker build -t so .`
+3. Crie o container rodando 
+
+   `docker build -t so .`
+
 4. Rode o container indicando as pastas do linux e do initramfs
-`docker run -v "$PWD/../linux":/home/student/src/linux -v "$PWD":/home/student/src/initramfs so`
+
+   `docker run -v "$PWD/../linux":/home/student/src/linux -v "$PWD":/home/student/src/initramfs so`
 
 A saída deve ser:
 (To be developed) ...

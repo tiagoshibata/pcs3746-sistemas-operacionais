@@ -8,8 +8,8 @@ Isso significa que iremos alterar o processo de init nesse repositório e altera
 
 Para isso, é preciso ter a seguinte estrutura de pasta:
 \folder-qualquer-que-voce-escolher
-    \pcs376-sistemas-operacionais <- esse repositório
-    \linux <- [repositório do linux](https://github.com/felipegoncalvesmarques/linux)
+...\pcs376-sistemas-operacionais <- esse repositório
+...\linux <- [repositório do linux](https://github.com/felipegoncalvesmarques/linux)
 
 ## Setando ambiente e rodando
 

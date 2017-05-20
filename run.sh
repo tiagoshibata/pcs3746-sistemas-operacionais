@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 fail() {
     echo $1 >&2    
@@ -12,8 +12,9 @@ LINUX_VOLUME="$PWD/../linux:/home/student/src/linux"
 INITRAMFS_VOLUME="$PWD:/home/student/src/initramfs"
 VOLUMES="-v $LINUX_VOLUME -v $INITRAMFS_VOLUME"
 
+BUILD_COMMAND="docker build -t so ./docker"
 DEFAULT_COMMAND="docker run $VOLUMES so"
-INTERACTIVE_COMMAND="docker run -t $VOLUMES so bash"
+INTERACTIVE_COMMAND="docker run -it $VOLUMES so bash"
 
 if [ $NUMBER_OF_ARGUMENTS -eq 0 ]
 then
@@ -28,6 +29,9 @@ else
         case $1 in
             -i) echo "Running in interactive"
                 eval $INTERACTIVE_COMMAND
+                ;;
+            -b) echo "Building image"
+                eval $BUILD_COMMAND
                 ;;
             -h) echo "help - to be developed"
                 ;;

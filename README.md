@@ -30,6 +30,8 @@ Instale o Docker Community Edition:
 
 2. Entre na pasta `pcs3746-sistemas-operacionais`
 
+### Se você estiver rodando no Mac OS X ou no Linux, ou possuir um interpretador Bash, você pode usar o run.sh para facilidade o desenvolvimento.
+
 3. Crie o container rodando 
 
    `docker build -t so ./docker`
@@ -37,6 +39,12 @@ Instale o Docker Community Edition:
 4. Rode o container indicando as pastas do linux e do initramfs
 
    `docker run -v "$PWD/../linux":/home/student/src/linux -v "$PWD":/home/student/src/initramfs so`
+
+## Usando o run.sh
+
+3. Rode `./run.sh -b`
+
+4. Rode `./run.sh`
 
 A saída deve ser:
 (To be developed) ...

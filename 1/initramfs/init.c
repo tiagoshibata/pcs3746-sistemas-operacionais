@@ -6,6 +6,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "stack.h"
+
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 
 static const char * const programs[] = { "/stack_push", "/stack_pop" };
@@ -19,6 +21,16 @@ void panic(const char *msg)
 int main()
 {
 	printf("Custom initramfs - forking to run %d programs\n", len(programs));
+
+        printf("-- Begin stack test --\n");
+        printf("%ld\n", stack_push(1));
+        printf("%ld\n", stack_push(2));
+        printf("%ld\n", stack_push(3));
+        printf("%ld\n", stack_pop());
+        printf("%ld\n", stack_pop());
+        printf("%ld\n", stack_pop());
+        printf("%ld\n", stack_pop());
+        printf("-- End stack test --\n");
 
 	for (int i = 0; i < len(programs); i++) {
 		const char *path = programs[i];

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/mount.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -18,8 +19,19 @@ void panic(const char *msg)
 	exit(-1);
 }
 
+void mount_fs()
+{
+	printf("Mounting filesystems\n");
+	// If /sys is not created, make it read-only (mode = 444)
+	if (mkdir("/sys", 0x124) && errno != EEXIST)
+		panic("mkdir");
+	if (mount("none", "/sys", "sysfs", 0, ""))
+		panic("mount");
+}
+
 int main()
 {
+	mount_fs();
 	printf("Custom initramfs - forking to run %d programs\n", len(programs));
 
         printf("-- Begin stack test --\n");

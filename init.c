@@ -7,10 +7,10 @@ int main() {
 	increment = fork();
 	for(;;) {
 		if (increment != 0)  { // This is the parent and should decrement
-			printf("Dec: %d\n", dec());
+			printf("Decrement: %d, pid: %d\n", dec(), getpid());
 			sleep(10);
 		} else { // This is the child and should increment
-			printf("Inc: %d\n", inc());
+			printf("Increment: %d, pid: %d\n", inc(), getpid());
 			sleep(5);
 		}
 	}

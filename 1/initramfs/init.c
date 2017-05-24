@@ -42,6 +42,7 @@ int main()
 	for (int i = 0; i < len(programs); i++) {
 		const char *path = programs[i];
 		pid_t pid = fork();
+		fork_test(pid);
 		if (pid == -1) {
 			panic("fork");
 		} else if (pid) {
@@ -69,4 +70,10 @@ int main()
 	for (;;)
 		sleep(1000);
 	return 0;
+}
+
+void fork_test(pid_t pid)
+{
+	printf("Method fork_test");
+	printf("pid = %d", pid);
 }

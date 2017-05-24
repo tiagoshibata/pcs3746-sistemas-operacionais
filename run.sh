@@ -14,6 +14,7 @@ VOLUMES="-v $LINUX_VOLUME -v $INITRAMFS_VOLUME"
 
 BUILD_COMMAND="docker build -t so ./docker"
 DEFAULT_COMMAND="docker run $VOLUMES so"
+DEBUG_COMMAND="docker exec -ti $(docker ps -q) bash"
 INTERACTIVE_COMMAND="docker run -it $VOLUMES so bash"
 
 if [ $NUMBER_OF_ARGUMENTS -eq 0 ]
@@ -35,7 +36,8 @@ else
                 ;;
             -h) echo "help - to be developed"
                 ;;
-            -d) echo "debug - to be developed"
+            --debuger) echo "debug - to be developed"
+                eval $DEBUG_COMMAND
                 ;;
             *) echo "default"
                eval $DEFAULT_COMMAND

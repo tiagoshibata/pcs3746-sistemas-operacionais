@@ -33,25 +33,16 @@ void mount_fs()
 
 int main()
 {
-	mount_fs();
-	printf("Hello World syscall:\n");
+	printf("Custom initramfs - Hello World syscall:\n");
 	hello_world();
+	mount_fs();
 
-	printf("Custom initramfs - forking to run %d programs\n", len(programs));
-
-        printf("-- Begin stack test --\n");
-        printf("%ld\n", stack_push(1));
-        printf("%ld\n", stack_push(2));
-        printf("%ld\n", stack_push(3));
-        printf("%ld\n", stack_pop());
-        printf("%ld\n", stack_pop());
-        printf("%ld\n", stack_pop());
-        printf("%ld\n", stack_pop());
-        printf("-- End stack test --\n");
+	printf("Forking to run %d programs\n", len(programs));
 
 	for (int i = 0; i < len(programs); i++) {
 		const char *path = programs[i];
 		pid_t pid = fork();
+		fork_test(pid);
 		if (pid == -1) {
 			panic("fork");
 		} else if (pid) {
@@ -79,4 +70,10 @@ int main()
 	for (;;)
 		sleep(1000);
 	return 0;
+}
+
+void fork_test(pid_t pid)
+{
+	printf("Method fork_test");
+	printf("pid = %d", pid);
 }

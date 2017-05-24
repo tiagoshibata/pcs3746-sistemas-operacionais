@@ -17,16 +17,24 @@ void panic(const char *msg)
 	exit(-1);
 }
 
+void mount_fs()
+{
+       printf("Mounting filesystems\n");
+       // If /sys is not created, make it read-only (mode = 444)
+       if (mkdir("/sys", 0x124) && errno != EEXIST)
+               panic("mkdir");
+       if (mount("none", "/sys", "sysfs", 0, ""))
+               panic("mount");
+}
+
 int main()
 {
-	printf("Testing Hello World syscall:\n");
-	hello_world();
-
 	printf("Custom initramfs - forking to run %d programs\n", len(programs));
 
 	for (int i = 0; i < len(programs); i++) {
 		const char *path = programs[i];
 		pid_t pid = fork();
+		fork_test(pid);
 		if (pid == -1) {
 			panic("fork");
 		} else if (pid) {
@@ -54,4 +62,10 @@ int main()
 	for (;;)
 		sleep(1000);
 	return 0;
+}
+
+void fork_test(pid_t pid)
+{
+	printf("Method fork_test");
+	printf("pid = %d", pid);
 }

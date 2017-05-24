@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "hello_world.h"
 
 #include "stack.h"
 
@@ -33,6 +34,9 @@ void mount_fs()
 int main()
 {
 	mount_fs();
+	printf("Hello World syscall:\n");
+	hello_world();
+
 	printf("Custom initramfs - forking to run %d programs\n", len(programs));
 
         printf("-- Begin stack test --\n");

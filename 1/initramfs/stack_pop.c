@@ -13,13 +13,16 @@ int main()
 	char stack_count[5];
 
 	while(1) {
-		lseek(fd, 0, SEEK_SET);
-		int size = read(fd, stack_count, 4);
-		if (size < 0) {
-			perror("read");
+		if (lseek(fd, 0, SEEK_SET)) {
+			perror("lseek");
 		} else {
-			stack_count[size] = 0;
-			printf("Stack item count: %s", stack_count);
+			int size = read(fd, stack_count, 4);
+			if (size < 0) {
+				perror("read");
+			} else {
+				stack_count[size] = 0;
+				printf("Stack item count: %s", stack_count);
+			}
 		}
 		printf("stack_pop: %ld\n", stack_pop());
 		sleep(rand() % 5 + 1);

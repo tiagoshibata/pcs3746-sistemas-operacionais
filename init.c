@@ -11,6 +11,17 @@ int main() {
 	
 	increment = fork();
 	
+	for (int i = 1; i <= 99; i++) {
+		int pid = fork();
+		if (pid == 0) {
+			exec("somaNumeros.c");
+		}
+	}
+	pid = fork();
+	if (pid == 0) {
+		exec("inOut.c");
+	}
+	
 	for(;;) {
 		if (increment != 0)  { // This is the parent and should decrement
 			parentProcess();

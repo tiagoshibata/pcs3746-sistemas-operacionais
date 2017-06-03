@@ -1,3 +1,6 @@
 [submodule "1/linux"]
 	path = 1/linux
 	url = https://github.com/tiagoshibata/linux.git
+[submodule "2/linux"]
+	path = 2/linux
+	url = https://github.com/tiagoshibata/linux.git

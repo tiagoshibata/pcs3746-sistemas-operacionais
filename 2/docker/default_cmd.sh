@@ -7,7 +7,7 @@ fail() {
 }
 
 SRC=/home/student/src
-if ! cd $SRC/linux/Makefile ; then
+if ! cd $SRC/linux ; then
     fail "Mount a linux tree volume under $SRC/linux"
 fi
 

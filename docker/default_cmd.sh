@@ -7,7 +7,7 @@ fail() {
 }
 
 SRC=/home/student/src
-# Linux compilation
+#Linux compilation
 # if ! cd $SRC/linux ; then
 #     fail "Mount a linux tree volume under $SRC/linux"
 # fi
@@ -29,4 +29,4 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi-
 
 # QEMU Running
 BOOT=$SRC/linux/arch/arm/boot
-qemu-system-arm -s -S -M versatilepb -m 128M -nographic -kernel $BOOT/zImage -dtb $BOOT/dts/versatile-pb.dtb -initrd build/rootfs.gz -append "root=/dev/ram"
+qemu-system-arm -M versatilepb -m 128M -nographic -kernel $BOOT/zImage -dtb $BOOT/dts/versatile-pb.dtb -initrd build/rootfs.gz -append "root=/dev/ram"

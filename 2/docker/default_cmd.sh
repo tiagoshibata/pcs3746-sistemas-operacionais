@@ -7,9 +7,10 @@ fail() {
 }
 
 SRC=/home/student/src
-if ! cd $SRC/linux || [ ! -f Makefile ] ; then
+if [ ! -f $SRC/linux/Makefile ] ; then
     fail "Mount a linux tree volume under $SRC/linux"
 fi
+cd $SRC/linux
 
 if [ ! -f .config ] ; then
     echo ".config not found, using versatile template"

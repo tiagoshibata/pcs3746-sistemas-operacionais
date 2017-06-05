@@ -2,9 +2,10 @@
 #include <stdlib.h>
 
 int main() {
-	int rand1 = rand();
-	int rand2 = rand();
-	int total = rand1 * rand2;
-	printf("%d\n", total);
+	int i = 0;
+	for(;;){
+		i += 2;
+		printf("%d\n", i);
+	}
 	return 0;
 }

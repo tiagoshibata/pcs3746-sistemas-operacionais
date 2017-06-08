@@ -9,7 +9,7 @@ clean:
 		rm -rf build
 		find -name '*.o' -delete
 
-build/rootfs.gz: build/initramfs_root/init build/initramfs_root/stack_pop build/initramfs_root/stack_push build/initramfs_root/queue_pop build/initramfs_root/queue_push
+build/rootfs.gz: build/initramfs_root/init build/initramfs_root/stack_pop build/initramfs_root/stack_push build/initramfs_root/queue_pop build/initramfs_root/queue_push build/initramfs_root/wait_fork
 		cd build/initramfs_root ; \
 		find -type f -print0 | cpio -0 -ov -H newc | gzip -9 > ../rootfs.gz
 
@@ -26,4 +26,7 @@ build/initramfs_root/queue_push: queue_push.o
 		$(CC) -o $@ $^
 
 build/initramfs_root/queue_pop: queue_pop.o
+		$(CC) -o $@ $^
+
+build/initramfs_root/wait_fork: wait_fork.o
 		$(CC) -o $@ $^

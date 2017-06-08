@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include "hello_world.h"
 
-#include "queue.h"
+#include "wait_fork.h"
 
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 
@@ -37,6 +37,23 @@ int main()
 	hello_world();
 	mount_fs();
 
+	printf("Forking to run wait queue programs\n");
+	int process_count = 0;
+
+	while (1) {
+		pid_t pid = fork();
+		if (pid == -1) {
+			panic("fork");
+		} else if (pid) {
+			printf("\nRunning parent process #%d (child pid = %d)\t", ++process_count, pid);
+			wait_parent(pid);
+		} else {
+			wait_child();
+			panic("wait_child");
+		}
+	}
+
+	/*
 	printf("Forking to run %d programs\n", len(programs));
 
 	for (int i = 0; i < len(programs); i++) {
@@ -65,6 +82,7 @@ int main()
 			continue;
 		program_count--;
 	}
+	*/
 
 	printf("init finished\n");
 	for (;;)

@@ -47,42 +47,12 @@ int main()
 		} else if (pid) {
 			printf("\nRunning parent process #%d (child pid = %d)\t", ++process_count, pid);
 			wait_parent(pid);
+			panic("wait_parent");
 		} else {
 			wait_child();
 			panic("wait_child");
 		}
 	}
-
-	/*
-	printf("Forking to run %d programs\n", len(programs));
-
-	for (int i = 0; i < len(programs); i++) {
-		const char *path = programs[i];
-		pid_t pid = fork();
-		fork_test(pid);
-		if (pid == -1) {
-			panic("fork");
-		} else if (pid) {
-			printf("Starting %s (pid = %d)\n", path, pid);
-		} else {
-			execl(path, path, (char *)NULL);
-			panic("execl");
-		}
-	}
-
-	int program_count = len(programs);
-	while (program_count) {
-		int wstatus;
-		pid_t pid = wait(&wstatus);
-		if (WIFEXITED(wstatus))
-			printf("pid %d exited with %d\n", pid, WEXITSTATUS(wstatus));
-		else if (WIFSIGNALED(wstatus))
-			printf("pid %d killed by signal %d\n", pid, WTERMSIG(wstatus));
-		else
-			continue;
-		program_count--;
-	}
-	*/
 
 	printf("init finished\n");
 	for (;;)
@@ -90,8 +60,3 @@ int main()
 	return 0;
 }
 
-void fork_test(pid_t pid)
-{
-	printf("Method fork_test");
-	printf("pid = %d", pid);
-}

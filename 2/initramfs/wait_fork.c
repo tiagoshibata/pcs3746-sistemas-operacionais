@@ -10,29 +10,34 @@
 
 int wait_parent(int pid)
 {
-	int fd = open("/sys/kernel/sys_wait/count", O_RDONLY);
-	char wait_count[5];
+	while (1) {
+		int fd = open("/sys/kernel/sys_wait/count", O_RDONLY);
+		char wait_count[5];
 
-	if (lseek(fd, 0, SEEK_SET)) {
-		perror("lseek");
-	} else {
-		int size = read(fd, wait_count, 4);
-		if (size < 0) {
-			perror("read");
+		if (lseek(fd, 0, SEEK_SET)) {
+			perror("lseek");
 		} else {
-			wait_count[size] = 0;
-			printf("\nWait queue item count: %s\t", wait_count);
+			int size = read(fd, wait_count, 4);
+			if (size < 0) {
+				perror("read");
+			} else {
+				wait_count[size] = 0;
+				printf("\nWait queue item count: %s\t", wait_count);
+			}
 		}
-	}
 
-	char c;
-	do {
-		c = getchar();
-	} while (c != 'b' && c != 'd');
-	if (c == 'b') {
-		wait_lock(pid);
-	} else {
-		wait_unlock();
+		char c;
+		do {
+			c = getchar();
+		} while (c != 'b' && c != 'd');
+		if (c == 'b') {
+			wait_lock(pid);
+		} else {
+			int error = wait_unlock();
+			if (error) {
+				printf("\nWARNING: Could not unlock process from queue. (%d)\t", error);
+			}
+		}
 	}
 	return 0;
 }

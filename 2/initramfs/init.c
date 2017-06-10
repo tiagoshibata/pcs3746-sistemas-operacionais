@@ -10,7 +10,6 @@
 #include <fcntl.h>
 
 #include "hello_world.h"
-#include "wait_fork.h"
 #include "wait.h"
 
 #define len(_arr) ((int)((&_arr)[1] - _arr))

@@ -7,13 +7,57 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "hello_world.h"
+#include <fcntl.h>
 
+#include "hello_world.h"
 #include "wait_fork.h"
+#include "wait.h"
 
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 
-static const char * const programs[] = { "/queue_push", "/queue_pop" };
+int wait_parent(int pid)
+{
+	while (1) {
+		int fd = open("/sys/kernel/sys_wait/count", O_RDONLY);
+		char wait_count[5];
+
+		if (lseek(fd, 0, SEEK_SET)) {
+			perror("lseek");
+		} else {
+			int size = read(fd, wait_count, 4);
+			if (size < 0) {
+				perror("read");
+			} else {
+				wait_count[size] = 0;
+				printf("\nWait queue item count: %s\t", wait_count);
+			}
+		}
+
+		char c;
+		do {
+			printf("\nInsert your char.");
+			c = getchar();
+		} while (c != 'b' && c != 'd');
+		if (c == 'b') {
+			wait_lock(pid);
+		} else {
+			int error = wait_unlock();
+			if (error) {
+				printf("\nWARNING: Could not unlock process from queue. (%d)\t", error);
+			}
+		}
+	}
+	return 0;
+}
+
+int wait_child()
+{
+	while (1) {
+		printf("\nA");
+		sleep(1);
+	}
+	return 0;
+}
 
 void panic(const char *msg)
 {
@@ -59,4 +103,3 @@ int main()
 		sleep(1000);
 	return 0;
 }
-

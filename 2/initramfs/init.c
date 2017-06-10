@@ -28,13 +28,14 @@ int wait_parent(int pid)
 				perror("read");
 			} else {
 				wait_count[size] = 0;
-				printf("\nWait queue item count: %s\t", wait_count);
+				printf("Wait queue item count: %s\n", wait_count);
 			}
 		}
 
 		char c;
 		do {
-			printf("\nInsert your char.");
+			if (c != '\n')
+				printf("Insert your char.\n");
 			c = getchar();
 		} while (c != 'b' && c != 'd');
 		if (c == 'b') {
@@ -42,7 +43,7 @@ int wait_parent(int pid)
 		} else {
 			int error = wait_unlock();
 			if (error) {
-				printf("\nWARNING: Could not unlock process from queue. (%d)\t", error);
+				printf("WARNING: Could not unlock process from queue. (%d)\n", error);
 			}
 		}
 	}

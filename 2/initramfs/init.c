@@ -9,11 +9,9 @@
 #include <unistd.h>
 #include "hello_world.h"
 
-#include "queue.h"
-
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 
-static const char * const programs[] = { "/queue_push", "/queue_pop" };
+static const char * const programs[] = { "/stop_test" };
 
 void panic(const char *msg)
 {
@@ -42,7 +40,6 @@ int main()
 	for (int i = 0; i < len(programs); i++) {
 		const char *path = programs[i];
 		pid_t pid = fork();
-		fork_test(pid);
 		if (pid == -1) {
 			panic("fork");
 		} else if (pid) {
@@ -70,10 +67,4 @@ int main()
 	for (;;)
 		sleep(1000);
 	return 0;
-}
-
-void fork_test(pid_t pid)
-{
-	printf("Method fork_test");
-	printf("pid = %d", pid);
 }

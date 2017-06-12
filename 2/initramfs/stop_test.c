@@ -21,10 +21,10 @@ int main()
 			}
 		}
 	} else {
-		for (;;) {
+		for (int i = 0;; i++) {
 			const struct timespec ts = {.tv_sec = 0, .tv_nsec = 5e8 };
 			nanosleep(&ts, NULL);
-			printf("A\n");
+			printf("A - %d\n", i);
 		}
 	}
 }

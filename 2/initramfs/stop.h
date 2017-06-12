@@ -2,8 +2,8 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 
-#define __NR_stop  401
-#define __NR_start 402
+#define __NR_stop	401
+#define __NR_start	402
 
 long stop_process(int pid)
 {

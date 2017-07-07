@@ -5,4 +5,4 @@
 # Blank line separator
 
 # Common user-mode processes. Will be run in parallel
-/usr/bin/ls -r
+/usr/bin/busybox sh

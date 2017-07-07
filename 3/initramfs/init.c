@@ -35,7 +35,7 @@ void __attribute__((noreturn)) exec_cmd(char *path)
 	argv[++i] = NULL;
 
 	execv(path, argv);  // should never return
-	panic("execve");
+	panic("execv");
 }
 
 pid_t start(char *path)

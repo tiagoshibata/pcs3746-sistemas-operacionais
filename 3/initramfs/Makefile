@@ -1,4 +1,4 @@
-CC=$(CROSS_COMPILE)gcc -Wall -Wextra -static -g
+CC=$(CROSS_COMPILE)gcc -Wall -Wextra -Werror -static -g
 USR_BIN_FILES:=ls mount_fs
 
 # End of user configuration
@@ -16,7 +16,7 @@ clean:
 	find -name '*.o' -delete
 
 build/rootfs.gz: build/initramfs_root/init $(USR_BIN)
-	cp -rua rootfs/. build/initramfs_root/
+	cp -ruav rootfs/. build/initramfs_root/
 	cd build/initramfs_root ; find -print0 | cpio -0 -ov -H newc | gzip -9 > ../rootfs.gz
 
 build/initramfs_root/init: init.o

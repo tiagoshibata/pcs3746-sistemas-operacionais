@@ -53,10 +53,10 @@ int main(int argc, char **argv)
 {
 	int c;
 	while ((c = getopt(argc, argv, "r")) != -1) {
-		printf("opt %c\n", c);
 		switch (c) {
 			case 'r':
 			recursive = 1;
+			break;
 
 			case '?':
 			fprintf(stderr, "Usage: %s [-r] [dir1 [dir2] ...]\n", argv[0]);
@@ -76,6 +76,7 @@ int main(int argc, char **argv)
 		return -1;
 	}
 	for (int i = optind; i < argc; i++) {
+		printf(BLUE "%s:\n" RESET, argv[i]);
 		if (chdir(argv[i])) {
 			perror("chdir");
 			continue;

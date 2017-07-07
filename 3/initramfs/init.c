@@ -7,10 +7,35 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#define len(_arr) ((int)((&_arr)[1] - _arr))
+
 void __attribute__((noreturn)) panic(const char *msg)
 {
 	fprintf(stderr, "%s: %s (errno = %d)\n", msg, strerror(errno), errno);
 	exit(-1);
+}
+
+void __attribute__((noreturn)) exec_cmd(char *path)
+{
+	char *argv[20];
+	*argv = path;
+	int i = 0;
+
+	// Search spaces and save the next character as an argument
+	for (char *arg = path; (arg = strchr(arg, ' ')); )
+		if (++i < len(argv) - 1) {
+			*arg = 0;
+			argv[i] = ++arg;
+		} else {
+			fprintf(stderr, "/etc/inittab command %s has too many arguments (%d supported)\n",
+			path, len(argv));
+			exit(-1);
+		}
+
+	argv[++i] = NULL;
+
+	execv(path, argv);  // should never return
+	panic("execve");
 }
 
 pid_t start(char *path)
@@ -22,14 +47,7 @@ pid_t start(char *path)
 		printf("Starting %s (pid = %d)\n", path, pid);
 		return pid;
 	} else {
-		char *argv[20] = { path };
-		char **current_arg = argv;
-		// Search spaces and save the next character as an argument
-		for (char *arg = path; arg = strchr(arg, ' '); arg++)
-			*++current_arg = arg;
-
-		execve(path, argv, NULL);  // should never return
-		panic("execve");
+		exec_cmd(path);
 	}
 }
 
@@ -81,7 +99,7 @@ int main()
 	while (get_initcmd_entry(initcmd, initcmd_entry)) {
 		start(initcmd_entry);
 		if (wait_for_children(1)) {
-			fprintf(stderr, "%s returned non-zero status\n", initcmd_entry);
+			fprintf(stderr, "%s returned non-zero status, init exiting\n", initcmd_entry);
 			exit(-1);
 		}
 	}

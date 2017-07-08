@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 	}
 
 	static char cwd[256];
-	if (getcwd(cwd, sizeof(cwd))) {
+	if (!getcwd(cwd, sizeof(cwd))) {
 		perror("getcwd");
 		return -1;
 	}
@@ -81,7 +81,7 @@ int main(int argc, char **argv)
 			perror("chdir");
 			continue;
 		}
-		list(0);
+		list(1);
 		if (chdir(cwd)) {
 			perror("chdir");
 			return -1;

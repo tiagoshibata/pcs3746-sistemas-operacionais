@@ -12,5 +12,3 @@ if [ ! -f .config ] ; then
         -e 's/.*CONFIG_STATIC.*/CONFIG_STATIC=y/' \
         -i .config
 fi
-
-$MAKE

@@ -26,5 +26,6 @@ $(USR_BIN): build/initramfs_root/usr/bin/%: %.o
 	$(CC) -o $@ $^
 
 busybox:
-	./busybox/build.sh
+	./busybox/configure.sh
+	$(MAKE) -C busybox/busybox
 	cp -uav busybox/busybox/busybox build/initramfs_root/usr/bin/busybox

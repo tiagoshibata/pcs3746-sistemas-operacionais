@@ -90,6 +90,8 @@ int get_initcmd_entry(FILE *f, char *buf)
 
 int main()
 {
+	printf("Init starting\n");
+
 	char initcmd_entry[512];
 	FILE *initcmd = fopen("/etc/initcmd", "r");
 	if (!initcmd)

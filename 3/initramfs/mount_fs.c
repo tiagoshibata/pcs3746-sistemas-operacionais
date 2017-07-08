@@ -12,23 +12,26 @@ void __attribute__((noreturn)) panic(const char *msg)
 	exit(-1);
 }
 
-void mount_fs()
+void mount_fs(const char *source, const char *target, const char *type,
+	unsigned long flags, const char *data)
+{
+	// If not created, make it read-only (mode = 444)
+	if (mkdir(target, 0x124) && errno != EEXIST)
+		panic("mkdir");
+	if (mount(source, target, type, flags, data))
+		panic("mount");
+}
+
+void mount_all()
 {
 	printf("Mounting filesystems\n");
-	// If /sys is not created, make it read-only (mode = 444)
-	if (mkdir("/sys", 0x124) && errno != EEXIST)
-		panic("mkdir");
-	if (mount("none", "/sys", "sysfs", 0, ""))
-		panic("mount");
-	// If /dev is not created, make it read-only (mode = 444)
-	if (mkdir("/dev", 0x124) && errno != EEXIST)
-		panic("mkdir");
-	if (mount("none", "/dev", "devtmpfs", 0, ""))
-		panic("mount");
+	mount_fs("none", "/proc", "proc", 0, "");
+	mount_fs("none", "/sys", "sysfs", 0, "");
+	mount_fs("none", "/dev", "devtmpfs", 0, "");
 }
 
 int main()
 {
-	mount_fs();
+	mount_all();
 	return 0;
 }

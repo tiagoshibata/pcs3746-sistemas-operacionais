@@ -1,5 +1,5 @@
 CC=$(CROSS_COMPILE)gcc -Wall -Wextra -Werror -static -g
-USR_BIN_FILES:=mount_fs tree write_test
+USR_BIN_FILES:=mount_fs tree write_test read_test
 
 # End of user configuration
 

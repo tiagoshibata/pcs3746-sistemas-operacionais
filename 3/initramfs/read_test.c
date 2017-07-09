@@ -8,15 +8,24 @@
 int main()
 {
 	int fd = open("/dev/blocking_dev", O_RDONLY);
-	char item[1];
+	if (fd == -1) {
+		perror("open");
+		return -1;
+	}
+
+	char item;
 
 	while(1) {
-		int size = read(fd, item, 1);
+		int size = read(fd, &item, 1);
+		if (!size) {
+			printf("EOF\n");
+			return 0;
+		}
 		if (size < 0) {
 			perror("read");
-		} else {
-			printf("Read item: %x\n", item[0]);
+			return -1;
 		}
+		printf("Read item: %x\n", item);
 	}
 	return 0;
 }

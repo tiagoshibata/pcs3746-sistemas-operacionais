@@ -1,5 +1,5 @@
 CC=$(CROSS_COMPILE)gcc -Wall -Wextra -Werror -static -g
-USR_BIN_FILES:=tree mount_fs
+USR_BIN_FILES:=mount_fs tree write_test
 
 # End of user configuration
 
@@ -15,14 +15,11 @@ clean:
 	rm -rf build
 	find -name '*.o' -delete
 
-build/rootfs.gz: build/initramfs_root/init build/initramfs_root/write_test $(USR_BIN) busybox
+build/rootfs.gz: build/initramfs_root/init $(USR_BIN) busybox
 	cp -ruav rootfs/. build/initramfs_root/
 	cd build/initramfs_root ; find -print0 | cpio -0 -ov -H newc | gzip -9 > ../rootfs.gz
 
 build/initramfs_root/init: init.o
-	$(CC) -o $@ $^
-
-build/initramfs_root/write_test: write_test.o
 	$(CC) -o $@ $^
 
 $(USR_BIN): build/initramfs_root/usr/bin/%: %.o

@@ -15,8 +15,8 @@ void __attribute__((noreturn)) panic(const char *msg)
 void mount_fs(const char *source, const char *target, const char *type,
 	unsigned long flags, const char *data)
 {
-	// If not created, make it read-only (mode = 444)
-	if (mkdir(target, 0x124) && errno != EEXIST)
+	// If not created, make it read-only (mode = 555)
+	if (mkdir(target, 0x16d) && errno != EEXIST)
 		panic("mkdir");
 	if (mount(source, target, type, flags, data))
 		panic("mount");

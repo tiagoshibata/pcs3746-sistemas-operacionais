@@ -1,20 +1,24 @@
-#include <stdlib.h>
 #include "write_device.h"
+
+#include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
-#include <time.h>
 
 
 int main()
 {
-	while(1) {
-		char c = getchar();
-		if(c == 'e') {
-			int r = rand() % 100;
-			write_device(r);
-		} else if(c == 'q') {
-			break;
+	for (;;) {
+		switch (getchar()) {
+			case 'e':
+			{
+				int r = rand() % 256;
+				printf("Writing %x\n", r);
+				write_device(r);
+				break;
+			}
+
+			case 'q':
+			case EOF:
+			return 0;
 		}
 	}
-	return 0;
 }

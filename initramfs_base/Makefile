@@ -6,6 +6,8 @@ USR_BIN_FILES+=tree
 BUILD_DIR?=build
 ROOTFS?=rootfs
 USR_BIN:=$(addprefix $(BUILD_DIR)/initramfs_root/usr/bin/,$(notdir $(USR_BIN_FILES)))
+USR_BIN_OBJS:=$(addsufix .o,$(USR_BIN_FILES))
+$(foreach obj,$(USR_BIN_OBJS),USR_BIN_OBJS_$obj:=$(obj))
 
 # TODO Ideally, use fakeroot during build and set proper directory permissions
 $(shell mkdir -p $(BUILD_DIR)/initramfs_root/usr/bin)
@@ -24,7 +26,7 @@ $(BUILD_DIR)/rootfs.gz: $(BUILD_DIR)/initramfs_root/init $(USR_BIN) busybox
 $(BUILD_DIR)/initramfs_root/init: init.o
 	$(CC) -o $@ $^
 
-$(USR_BIN): $(BUILD_DIR)/initramfs_root/usr/bin/%: %.o
+$(USR_BIN): $(BUILD_DIR)/initramfs_root/usr/bin/%: $(USR_BIN_OBJS_%)
 	$(CC) -o $@ $^
 
 busybox:

@@ -5,7 +5,5 @@
 
 USR_BIN:=$(addprefix $(BUILD_DIR)/initramfs_root/usr/bin/,$(USR_BIN_FILES))
 
-$(info USR_BIN $(USR_BIN) $(SELF_DIR))
-
 $(USR_BIN): $(BUILD_DIR)/initramfs_root/usr/bin/%: $(SELF_DIR)/src/%.o
 	$(CC) -o $@ $^

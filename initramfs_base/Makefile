@@ -13,9 +13,9 @@ $(shell mkdir -p $(BUILD_DIR)/initramfs_root/usr/bin $(BUILD_DIR)/initramfs_root
 .PHONY: all clean busybox
 all: $(BUILD_DIR)/rootfs.gz
 
-clean:
+clean::
 	rm -rf $(BUILD_DIR)
-	find -name '*.o' -delete
+	find $(SELF_DIR) -name '*.o' -delete
 
 include $(SELF_DIR)/usr_bin_binaries.make
 

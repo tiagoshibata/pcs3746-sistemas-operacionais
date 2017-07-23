@@ -27,7 +27,7 @@ EOF
     # CONFIG_SCSI_VIRTIO=y
     # CONFIG_SCSI_SYM53C8XX_2=y
     # CONFIG_SCSI=y
-	./merge_config.sh .config .config-fragment
+    $SRC/initramfs/merge_config.sh .config .config-fragment
     make ARCH=arm olddefconfig
 fi
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- all

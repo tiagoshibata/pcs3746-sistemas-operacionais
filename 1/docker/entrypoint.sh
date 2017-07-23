@@ -4,7 +4,7 @@ set -e
 export MAKEFLAGS
 
 if [[ "$*" ]] ; then
-    su student -c "$*"
+    su student -c "env PATH=$PATH $*"
 else
     su - student
 fi

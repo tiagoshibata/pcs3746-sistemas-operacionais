@@ -1,15 +1,28 @@
-USR_BIN_FILES+=$(PWD)/src/generate_page_fault.c
 BUILD_DIR:=$(PWD)/build
 ROOTFS:=$(PWD)/rootfs
 
-MAKE_BASE:=$(MAKE) BUILD_DIR=$(BUILD_DIR) ROOTFS=$(ROOTFS) -C ../initramfs_base
-
-$(shell mkdir -p $(BUILD_DIR))
-
-.PHONY: all clean
-# Expose targets all and clean from initramfs
+# Set default target
 all:
-	$(MAKE_BASE) all
 
-clean:
-	$(MAKE_BASE) clean
+SELF_DIR:=$(dir $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
+USR_BIN_FILES:=capacity_page_fault mmap_page_fault
+include ../initramfs_base/usr_bin_binaries.make
+$(BUILD_DIR)/rootfs.gz: build_auxiliary_disk build_swap $(USR_BIN)
+
+include ../initramfs_base/Makefile
+
+.PHONY: build_auxiliary_disk build_swap
+
+build_auxiliary_disk:
+	if [ ! -f build/aux_disk.img ] ; then \
+		fallocate -l 128M build/aux_disk.img ; \
+		mkfs.ext2 build/aux_disk.img ; \
+		echo "Auxiliary disk image created at build/aux_disk.img" ; \
+		echo "To create a large file, mount it and run:" ; \
+		echo "dd if=/dev/urandom of=mnt/large_file bs=1M count=120" ; \
+	fi
+
+build_swap:
+	if [ ! -f build/swap.img ] ; then \
+		fallocate -l 32M build/swap.img ; \
+	fi

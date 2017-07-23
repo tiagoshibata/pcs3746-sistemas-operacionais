@@ -1,7 +1,7 @@
 # Early initialization. Will be run sequentially and can depend on each other's
 # completion.
 # Programs and arguments must be separated by single spaces.
-/usr/bin/busybox mkdir -p /proc /sys /dev
+/usr/bin/busybox mkdir -p /dev /mnt /proc /sys
 /usr/bin/busybox mount -a
 /usr/bin/busybox mkswap /dev/vda
 /usr/bin/busybox swapon /dev/vda

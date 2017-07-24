@@ -1,4 +1,6 @@
+#include <ctype.h>
 #include <fcntl.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -59,8 +61,9 @@ int main(int argc, char **argv)
 		panic("open");
 
 	char *data = map_fd(fd, length, mmap_flags);
+	printf("File mapped to %" PRIuPTR "\n", (uintptr_t)data);
 	for (size_t i = 0; i < length; i++)
-		putchar(data[i]);
+		printf("%zu: %.2x (%c)\n", i, data[i], isprint(data[i]) ? data[i] : '.');
 
 	if (munmap(data, length))
 		panic("munmap");

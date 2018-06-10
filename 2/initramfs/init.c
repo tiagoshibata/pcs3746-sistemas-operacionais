@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "hello_world.h"
+#include "semaphore.h"
 
 #define len(_arr) ((int)((&_arr)[1] - _arr))
 
@@ -31,37 +31,44 @@ void mount_fs()
 
 int main()
 {
+	int i;
 	printf("Custom initramfs - Hello World syscall:\n");
-	hello_world();
+	for (i = 0; i < 104; i ++) {
+		printf("Resultado do init %d: %ld\n", i + 1, init_semaphore(i + 5));
+	}
+	up(25);
+	down(1);
 	mount_fs();
 
-	printf("Forking to run %d programs\n", len(programs));
+	while (1) { }
 
-	for (int i = 0; i < len(programs); i++) {
-		const char *path = programs[i];
-		pid_t pid = fork();
-		if (pid == -1) {
-			panic("fork");
-		} else if (pid) {
-			printf("Starting %s (pid = %d)\n", path, pid);
-		} else {
-			execl(path, path, (char *)NULL);
-			panic("execl");
-		}
-	}
+	// printf("Forking to run %d programs\n", len(programs));
 
-	int program_count = len(programs);
-	while (program_count) {
-		int wstatus;
-		pid_t pid = wait(&wstatus);
-		if (WIFEXITED(wstatus))
-			printf("pid %d exited with %d\n", pid, WEXITSTATUS(wstatus));
-		else if (WIFSIGNALED(wstatus))
-			printf("pid %d killed by signal %d\n", pid, WTERMSIG(wstatus));
-		else
-			continue;
-		program_count--;
-	}
+	// for (int i = 0; i < len(programs); i++) {
+	// 	const char *path = programs[i];
+	// 	pid_t pid = fork();
+	// 	if (pid == -1) {
+	// 		panic("fork");
+	// 	} else if (pid) {
+	// 		printf("Starting %s (pid = %d)\n", path, pid);
+	// 	} else {
+	// 		execl(path, path, (char *)NULL);
+	// 		panic("execl");
+	// 	}
+	// }
+
+	// int program_count = len(programs);
+	// while (program_count) {
+	// 	int wstatus;
+	// 	pid_t pid = wait(&wstatus);
+	// 	if (WIFEXITED(wstatus))
+	// 		printf("pid %d exited with %d\n", pid, WEXITSTATUS(wstatus));
+	// 	else if (WIFSIGNALED(wstatus))
+	// 		printf("pid %d killed by signal %d\n", pid, WTERMSIG(wstatus));
+	// 	else
+	// 		continue;
+	// 	program_count--;
+	// }
 
 	printf("init finished\n");
 	for (;;)

@@ -2,9 +2,9 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 
-#define __NR_hello_world 400
+#define __NR_hello_world 404
 
-long hello_world()
+long hello_world(int value)
 {
-	return syscall(__NR_hello_world);
+	return syscall(__NR_hello_world, value);
 }

@@ -5,26 +5,19 @@
 
 int main()
 {
-	int x=0;
-	struct peterson meuPet;
-
-	printf("Ola processo 0\n\n");
-        //time_t ltime; /* calendar time */
+	int x = 0;
+	printf("Entrando no processo 0...\n\n");
 	while(1) {
-		write_turn(1, true, -1);
-		meuPet = read_turn();
-		while (meuPet.turn == 1 && meuPet.flag[1] == true)
-		{
-			meuPet = read_turn();
+		write_flag(0, true);
+		write_turn(1);
+		while (read_turn() == 1 && read_flag(1) == true) {
 		}		
                 x = read_number();
-                //ltime=time(NULL); /* get current cal time */
-                //printf("%s || Processo 0: %d\n",asctime( localtime(&ltime)), x);
                 printf("%d\n", x);
 		sleep(1);
                 x++;
                 write_number(x);
-		write_turn(-1, false, -1);
+		write_flag(0, false);
 	}
         return 0;
 }

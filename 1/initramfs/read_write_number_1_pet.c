@@ -3,19 +3,19 @@
 #include "read_write_number.h"
 #include <time.h>
 
+
 int main()
 {
-	extern bool flag[2];
-	extern int turn;
 	int x=0;
+	struct peterson meuPet;
 	printf("Ola processo 1\n\n");
-        time_t ltime; /* calendar time */
+        //time_t ltime; /* calendar time */
 	while(1) {
-		flag[1] = true;
-		turn = 0;
-		while (flag[0]==true && turn == 0)
+		write_turn(0, -1, true);
+                meuPet = read_turn();
+		while (meuPet.flag[0] == true && meuPet.turn == 0)
 		{
-
+			meuPet = read_turn();
 		}		
                 x = read_number();
                 //ltime=time(NULL); /* get current cal time */
@@ -24,7 +24,7 @@ int main()
 		sleep(1);
                 x++;
                 write_number(x);
-		flag[1]=false;
+		write_turn(-1, -1, false);
 	}
         return 0;
 }

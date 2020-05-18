@@ -1,8 +1,0 @@
-# Early initialization. Will be run sequentially and can depend on each other's
-# completion.
-# Programs and arguments must be separated by single spaces.
-/usr/bin/mount_fs
-# Blank line separator
-
-# Common user-mode processes. Will be run in parallel
-/usr/bin/busybox sh
